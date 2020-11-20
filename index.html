@@ -1,0 +1,104 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>MI-lang</title>
+  <meta name="description" content="MI-lang parser">
+  <meta name="author" content="Sam Wolfs">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hack/0.8.1/hack.css">
+  <style>
+    body {
+      display: flex;
+    }
+
+    main {
+      width: 100%;
+      margin-left: 33%;
+      margin-right: 33%;
+    }
+
+    main>* {
+      margin-bottom: 2rem;
+      flex: 1;
+    }
+
+    label.toggle {
+      position: relative;
+      background: #A5D6A7;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      display: none;
+    }
+
+    textarea {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body class="hack">
+  <main>
+    <h1>MIMMIIMI MIMMIMMI MMIMIIMI MIMMIIMM MIIMMMMI MIIMIIIM MIIMMIII</h1>
+    <h2>Text</h2>
+    <form id="textForm" class="active" accept-charset="utf-8">
+      <textarea id="in" type="text"></textarea>
+    </form>
+    <!-- <div>
+      <label class="toggle" for="toggle">Reverse</label>
+      <input class="visually-hidden" type="checkbox" id="toggle">
+    </div> -->
+    <h2>MI</h2>
+    <form id="miForm" accept-charset="utf-8">
+      <textarea id="out" type="text"></textarea>
+    </form>
+  </main>
+
+  <script>
+    const charToBin = (char) => {
+      const bin = char.charCodeAt().toString(2);
+      return '0'.repeat(8 - bin.length) + bin;
+    }
+
+    const binToChar = (code) => {
+      return String.fromCharCode(parseInt(code, 2));
+    }
+
+    const stringToMi = (string) => {
+      const binary = [...string].map(charToBin).join(' ').replace(/0/g, 'm').replace(/1/g, 'i');
+      return binary;
+    }
+
+    const miToString = (mi) => {
+      const binary = mi.replace(/m/g, '0').replace(/i/g, '1');
+      const string = binary.split(' ').map(binToChar).join('');
+      return string;
+    }
+
+    const miify = (document) => (event) => {
+      const inputValue = event.target.value;
+      const parsed = stringToMi(inputValue);
+      const result = document.getElementById('out');
+      result.value = parsed;
+    }
+
+    const stringify = (document) => (event) => {
+      const inputValue = event.target.value;
+      const parsed = miToString(inputValue);
+      const result = document.getElementById('in');
+      result.value = parsed;
+    }
+
+    const input = document.getElementById('in');
+    const output = document.getElementById('out');
+
+    input.addEventListener('keyup', miify(document));
+    output.addEventListener('keyup', stringify(document));
+  </script>
+</body>
+
+</html>
