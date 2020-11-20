@@ -74,7 +74,7 @@
     }
 
     const miToString = (mi) => {
-      const binary = mi.replace(/m/g, '0').replace(/i/g, '1');
+      const binary = mi.toLocaleLowerCase().replace(/m/g, '0').replace(/i/g, '1');
       const string = binary.split(' ').map(binToChar).join('');
       return string;
     }
